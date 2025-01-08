@@ -1,6 +1,7 @@
 package com.example.blogapp.controller;
 
 
+import com.example.blogapp.dto.ApiResponse;
 import com.example.blogapp.dto.UserDto;
 import com.example.blogapp.service.UserService;
 import jakarta.validation.Valid;
@@ -24,20 +25,24 @@ public class UserController {
     public ResponseEntity<UserDto> createUser(@RequestBody @Validated UserDto userDto) {
         return ResponseEntity.ok(userService.createUser(userDto));
     }
+
     @PutMapping("/{userId}")
-    public ResponseEntity<UserDto> updateUser( @RequestBody @Validated UserDto userDto, @PathVariable Integer userId) {
+    public ResponseEntity<UserDto> updateUser(@RequestBody @Validated UserDto userDto, @PathVariable Integer userId) {
         UserDto updatedUser = userService.updateUser(userDto, userId);
         return ResponseEntity.ok(updatedUser);
     }
+
     @DeleteMapping("/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Integer userId) {
         userService.deleteUserById(userId);
-        return new ResponseEntity<>(Map.of("message", "user has been deleted"), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse("User has been deleted", true), HttpStatus.OK);
     }
+
     @GetMapping("/")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
+
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> getAllUsers(@PathVariable Integer userId) {
         return ResponseEntity.ok(userService.getUserById(userId));
