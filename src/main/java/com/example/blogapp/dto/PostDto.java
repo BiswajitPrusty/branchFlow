@@ -1,11 +1,10 @@
 package com.example.blogapp.dto;
 
-import com.example.blogapp.model.Category;
-import com.example.blogapp.model.User;
-import jakarta.persistence.*;
+
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class PostDto {
@@ -16,4 +15,6 @@ public class PostDto {
     private Date postDate;
     private CategoryDto category;
     private UserDto user;
+    private List<CommentDto> comments;
+
 }
