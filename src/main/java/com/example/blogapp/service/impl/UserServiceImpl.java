@@ -7,6 +7,7 @@ import com.example.blogapp.repository.UserRepository;
 import com.example.blogapp.service.UserService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +19,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDto createUser(UserDto userDto) {
-        User save = userRepository.save(convertUserDtoToUser(userDto));
+        User user = convertUserDtoToUser(userDto);
+        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+        User save = userRepository.save(user);
         return convertUserToUserDto(save);
     }
 
